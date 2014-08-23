@@ -67,6 +67,16 @@ public class Chunk implements Renderable {
 		tiles[x + y * SIZE] = tile;
 	}
 	
+	/**
+	 * Returns the tile at the position given
+	 * @param x x position to get the tile
+	 * @param y y position to get the tile
+	 * @return Tile object
+	 */
+	public Tile getTile(int x, int y) {
+		return tiles[x + y * SIZE];
+	}
+	
 	public int getX() {
 		return x;
 	}

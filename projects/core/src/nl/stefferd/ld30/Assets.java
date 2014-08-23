@@ -17,11 +17,16 @@ public class Assets {
 	
 	public static TextureRegion tileDemo;
 	
+	public static TextureRegion playerPlayer;
+	
 	private static int[][] islandStart;
 	
 	public static void load() throws IOException {
 		TextureAtlas tiles = new TextureAtlas("sprites/tiles.pack");
 		tileDemo = tiles.findRegion("demo");
+
+		TextureAtlas players = new TextureAtlas("sprites/player.pack");
+		playerPlayer = players.findRegion("player");
 		
 		islandStart = getPixelArray(ImageIO.read(Gdx.files.internal("islands/start.png").read()));
 	}

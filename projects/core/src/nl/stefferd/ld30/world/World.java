@@ -4,12 +4,11 @@ import java.util.Random;
 
 import nl.stefferd.ld30.Assets;
 import nl.stefferd.ld30.Renderable;
+import nl.stefferd.ld30.world.entities.Player;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector3;
 
 public class World implements Renderable {
 	
@@ -18,6 +17,7 @@ public class World implements Renderable {
 	private Chunk[] chunks;
 	private OrthographicCamera camera;
 	private Random random;
+	private Player player;
 	
 	public World(int width, int height) {
 		this.width = width;
@@ -33,6 +33,9 @@ public class World implements Renderable {
 		// set camera to the center of the world
 		camera.position.set(width * Chunk.SIZE * Tile.SIZE / 2,
 				height * Chunk.SIZE * Tile.SIZE / 2, 0);
+		
+		// init the player, the position will be set when start island is loaded
+		player = new Player(this, 0, 0);
 		
 		// generate the world based on the random class set
 		random = new Random(0);
@@ -68,16 +71,13 @@ public class World implements Renderable {
 	
 	@Override
 	public void update() {
-		Vector3 movement = new Vector3();
-		if (Gdx.input.isKeyPressed(Keys.W)) movement.y = 1;
-		if (Gdx.input.isKeyPressed(Keys.S)) movement.y = -1;
-		if (Gdx.input.isKeyPressed(Keys.A)) movement.x = -1;
-		if (Gdx.input.isKeyPressed(Keys.D)) movement.x = 1;
-		movement.nor().scl(521 * Gdx.graphics.getDeltaTime());
-		camera.position.add(movement);
+		// update the player for movement
+		player.update();
+		
+		// make the camera follow the player
+		camera.position.x = player.x;
+		camera.position.y = player.y;
 		camera.update();
-		System.out.println((int)camera.position.x / (int)Tile.SIZE + ", " +
-				(int)camera.position.y / (int)Tile.SIZE);
 	}
 
 	@Override
@@ -89,6 +89,9 @@ public class World implements Renderable {
 		for (int i = 0; i < chunks.length; i++) {
 			chunks[i].render(batch);
 		}
+		
+		// Render the player on top
+		player.render(batch);
 	}
 	
 	/**
@@ -125,13 +128,46 @@ public class World implements Renderable {
 	}
 	
 	/**
+	 * Returns whether there is a none-void tile at the given position.
+	 * @param x x position to check for
+	 * @param y y position to check for
+	 * @return true or false, none-void or void tile respectively
+	 */
+	public boolean isTileAt(float x, float y) {
+		// check whether the position is in the bounds of the level
+		if (x < 0 || x >= width * Chunk.SIZE * Tile.SIZE ||
+				y < 0 || y >= height * Chunk.SIZE * Tile.SIZE)
+			return false;
+		
+		// get the chunk indices the position is in
+		int chunkX = (int)x / (int)(Chunk.SIZE * Tile.SIZE);
+		int chunkY = (int)y / (int)(Chunk.SIZE * Tile.SIZE);
+		
+		// get the indices of the tile in the chunk to check
+		int tileX = (int)(x / Tile.SIZE) % Chunk.SIZE;
+		int tileY = (int)(y / Tile.SIZE) % Chunk.SIZE;
+		
+		// get the tile from the chunk
+		Tile tile = chunks[chunkX + chunkY * width].getTile(tileX, tileY);
+		
+		return tile != null;
+	}
+	
+	/**
 	 * Sets the position of the player to a tile. Thus snaps to a 64x64 grid.
 	 * @param x absolute tile x index
 	 * @param y absolute tile y index
 	 */
 	public void setPlayerPosition(int x, int y) {
-		camera.position.set(x * Tile.SIZE + Tile.SIZE / 2,
-				y * Tile.SIZE + Tile.SIZE / 2, 0);
+		player.setPosition(x * Tile.SIZE, y * Tile.SIZE);
+	}
+	
+	/**
+	 * Returns the main player
+	 * @return Player class
+	 */
+	public Player getPlayer() {
+		return player;
 	}
 	
 }

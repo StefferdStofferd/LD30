@@ -78,7 +78,7 @@ public class World implements Renderable {
 		
 		// make the camera follow the player
 		camera.position.x = player.x;
-		camera.position.y = player.y;
+		camera.position.y = player.y + 100;
 		camera.update();
 	}
 

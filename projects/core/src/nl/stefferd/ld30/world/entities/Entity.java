@@ -5,6 +5,8 @@ import nl.stefferd.ld30.world.Tile;
 import nl.stefferd.ld30.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -16,11 +18,13 @@ public abstract class Entity implements Renderable {
 	public float x;
 	public float y;
 	protected World world;
+	protected Sprite sprite;
 	
 	private Vector2 momentum;
 	
-	public Entity(World world, float x, float y) {
+	public Entity(World world, Sprite sprite, float x, float y) {
 		this.world = world;
+		this.sprite = sprite;
 		this.x = x;
 		this.y = y;
 		momentum = new Vector2();
@@ -48,6 +52,14 @@ public abstract class Entity implements Renderable {
 		
 		move(momentum.x * Gdx.graphics.getDeltaTime() * direction,
 				momentum.y * Gdx.graphics.getDeltaTime());
+	}
+	
+	@Override
+	public void render(SpriteBatch batch) {
+		batch.begin();
+		sprite.setPosition(x, y);
+		sprite.draw(batch);
+		batch.end();
 	}
 	
 	/**

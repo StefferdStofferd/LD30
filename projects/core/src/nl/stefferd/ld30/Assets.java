@@ -10,6 +10,7 @@ import nl.stefferd.ld30.world.TileDemo;
 import nl.stefferd.ld30.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -19,6 +20,9 @@ public class Assets {
 	
 	public static TextureRegion playerPlayer;
 	
+	public static Texture backgroundForest, backgroundHills, backgroundIslands,
+						  backgroundMountains;
+	
 	private static int[][] islandStart;
 	
 	public static void load() throws IOException {
@@ -27,6 +31,11 @@ public class Assets {
 
 		TextureAtlas players = new TextureAtlas("sprites/player.pack");
 		playerPlayer = players.findRegion("player");
+		
+		backgroundForest = new Texture(Gdx.files.internal("backgrounds/forest.png"));
+		backgroundHills = new Texture(Gdx.files.internal("backgrounds/hills.png"));
+		backgroundIslands = new Texture(Gdx.files.internal("backgrounds/islands.png"));
+		backgroundMountains = new Texture(Gdx.files.internal("backgrounds/mountains.png"));
 		
 		islandStart = getPixelArray(ImageIO.read(Gdx.files.internal("islands/start.png").read()));
 	}

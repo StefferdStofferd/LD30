@@ -9,6 +9,7 @@ import nl.stefferd.ld30.world.entities.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -20,6 +21,7 @@ public class World implements Renderable {
 	private OrthographicCamera camera;
 	private Random random;
 	private Player player;
+	private ParalaxingBackground background;
 	
 	public World(int width, int height) {
 		this.width = width;
@@ -42,6 +44,12 @@ public class World implements Renderable {
 		// generate the world based on the random class set
 		random = new Random(0);
 		generateWorld();
+		
+		// init the paralaxing background
+		background = new ParalaxingBackground(new Texture[] {
+				Assets.backgroundForest, Assets.backgroundMountains,
+				Assets.backgroundHills, Assets.backgroundIslands
+		});
 	}
 	
 	/**
@@ -73,6 +81,10 @@ public class World implements Renderable {
 	
 	@Override
 	public void update() {
+		// update the paralaxing backgrounds
+		background.update(camera.position.x, camera.position.y,
+				width * Chunk.SIZE * Tile.SIZE, height * Chunk.SIZE * Tile.SIZE);
+		
 		// update the player for movement
 		player.update();
 		
@@ -84,8 +96,12 @@ public class World implements Renderable {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
 		// Apply the camera's transformations to the sprite rendering
 		batch.setProjectionMatrix(camera.combined);
+		
+		// render paralaxing backgrounds
+		background.render(batch);
 		
 		// Render all the chunks this world contains
 		for (int i = 0; i < chunks.length; i++) {

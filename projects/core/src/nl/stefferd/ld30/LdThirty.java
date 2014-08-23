@@ -8,7 +8,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 
 public class LdThirty extends Game {
 	
@@ -25,7 +24,7 @@ public class LdThirty extends Game {
 			System.exit(1);
 		}
 		batch = new SpriteBatch();
-		world = new World(3, 3);
+		world = new World(1, 1);
 	}
 
 	@Override

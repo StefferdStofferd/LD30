@@ -166,21 +166,12 @@ public class World implements Renderable {
 		
 		boolean colliding = false;
 		
-		System.out.println(chunkList.size());
-		if (chunkList.size() > 0)
-			System.out.println(chunkList.get(0).getAbsoluteRectangle());
-		
 		// Check for tiles in the chunks
 		for (Chunk chunk : chunkList) {
 			for (int y = 0; y < Chunk.SIZE && !colliding; y++)
 				for (int x = 0; x < Chunk.SIZE && !colliding; x++)
 					if (chunk.getTile(x, y) != null) {
 						Tile tile = chunk.getTile(x, y);
-						if (!tile.isUsable()) {
-							System.out.println("ohhno");
-							continue;
-						}
-						//System.out.println(tile.getAbsoluteRectangle());
 						if (tile.getAbsoluteRectangle()
 								.overlaps(rect))
 							colliding = true;

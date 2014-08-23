@@ -6,33 +6,48 @@ import nl.stefferd.ld30.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity implements Renderable {
+	
+	protected static final float LEFT = -1;
+	protected static final float RIGHT = 1;
 
 	public float x;
 	public float y;
 	protected World world;
 	
-	private float yMomentum = 0;
+	private Vector2 momentum;
 	
 	public Entity(World world, float x, float y) {
 		this.world = world;
 		this.x = x;
 		this.y = y;
+		momentum = new Vector2();
 	}
+	
+	boolean walking = false;
+	float direction = RIGHT;
 	
 	/**
 	 * Method that should be called by all the children of this class.
 	 */
 	@Override
 	public void update() {
-		yMomentum += -9.8f * Gdx.graphics.getDeltaTime() * Tile.SIZE * 2;
-		if (isGrounded() && yMomentum < 0)
-			yMomentum = 0;
+		momentum.y += -9.8f * Gdx.graphics.getDeltaTime() * Tile.SIZE * 2;
+		if (isGrounded() && momentum.y < 0)
+			momentum.y = 0;
+		// TODO: make landing nicer
 		
-		//System.out.println(isGrounded() + "@" + x + ", " + y);
+		if (!walking) {
+			momentum.x -= getDecceleration() * Gdx.graphics.getDeltaTime();
+			if (momentum.x < 0)
+				momentum.x = 0;
+		}
+		walking = false;
 		
-		move(0, yMomentum * Gdx.graphics.getDeltaTime());
+		move(momentum.x * Gdx.graphics.getDeltaTime() * direction,
+				momentum.y * Gdx.graphics.getDeltaTime());
 	}
 	
 	/**
@@ -40,7 +55,14 @@ public abstract class Entity implements Renderable {
 	 * @param force force to jump with
 	 */
 	public void jump(float force) {
-		yMomentum += force;
+		momentum.y += force;
+	}
+	
+	public void walk(float direction) {
+		this.direction = direction;
+		walking = true;
+		momentum.x = Math.min(momentum.x + getAcceleration() *
+				Gdx.graphics.getDeltaTime(), getMaxSpeed());
 	}
 	
 	/**
@@ -48,7 +70,7 @@ public abstract class Entity implements Renderable {
 	 * @param x the amount to move on the x-axis
 	 * @param y the amount to move on the y-axis
 	 */
-	public void move(float x, float y) {
+	private void move(float x, float y) {
 		this.x += x;
 		this.y += y;
 	}
@@ -81,5 +103,9 @@ public abstract class Entity implements Renderable {
 	 * @return
 	 */
 	protected abstract Rectangle getBounds();
+	
+	protected abstract float getAcceleration();
+	protected abstract float getDecceleration();
+	protected abstract float getMaxSpeed();
 	
 }

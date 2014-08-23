@@ -1,16 +1,16 @@
-package nl.stefferd.ld30.world;
+package nl.stefferd.ld30.world.tiles;
 
 import nl.stefferd.ld30.Assets;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class TileDemo extends Tile {
+public class TileGrass extends Tile {
 
-	public TileDemo() {
+	public TileGrass() {
 		super();
 	}
 	
-	public TileDemo(int x, int y) {
+	public TileGrass(int x, int y) {
 		super(x, y);
 	}
 
@@ -21,7 +21,7 @@ public class TileDemo extends Tile {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		batch.draw(Assets.tileDemo, getAbsoluteX(), getAbsoluteY());
+		batch.draw(Assets.tileGrass, getAbsoluteX(), getAbsoluteY());
 	}
 	
 	@Override

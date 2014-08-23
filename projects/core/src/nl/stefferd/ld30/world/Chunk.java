@@ -1,6 +1,7 @@
 package nl.stefferd.ld30.world;
 
 import nl.stefferd.ld30.Renderable;
+import nl.stefferd.ld30.world.tiles.Tile;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;

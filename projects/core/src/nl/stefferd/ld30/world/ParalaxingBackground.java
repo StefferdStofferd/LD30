@@ -49,8 +49,8 @@ public class ParalaxingBackground {
 			double dy = (textures[i].getHeight() - Gdx.graphics.getHeight()) / 2 / height * yOffs;
 			
 			// set the position of the background
-			positionsX[i] = -defX + dx + x - Gdx.graphics.getWidth() / 2;
-			positionsY[i] = -defY + dy + y - Gdx.graphics.getHeight() / 2;
+			positionsX[i] = -defX + dx;
+			positionsY[i] = -defY + dy;
 		}
 	}
 	

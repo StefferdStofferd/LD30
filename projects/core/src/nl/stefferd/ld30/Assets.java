@@ -6,8 +6,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import nl.stefferd.ld30.world.TileDemo;
 import nl.stefferd.ld30.world.World;
+import nl.stefferd.ld30.world.tiles.TileDirt;
+import nl.stefferd.ld30.world.tiles.TileGrass;
+import nl.stefferd.ld30.world.tiles.TileStone;
+import nl.stefferd.ld30.world.tiles.TileStoneDirt;
+import nl.stefferd.ld30.world.tiles.TileStoneGrass;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,7 +23,8 @@ public class Assets {
 	
 	public static final BitmapFont DEFAULT_FONT = new BitmapFont();
 	
-	public static TextureRegion tileDemo;
+	public static TextureRegion tileDemo, tileStone, tileDirt, tileGrass,
+								tileStoneDirt, tileStoneGrass;
 	
 	public static TextureRegion playerPlayer;
 	
@@ -31,6 +36,11 @@ public class Assets {
 	public static void load() throws IOException {
 		TextureAtlas tiles = new TextureAtlas("sprites/tiles.pack");
 		tileDemo = tiles.findRegion("demo");
+		tileStone = tiles.findRegion("stone");
+		tileDirt = tiles.findRegion("dirt");
+		tileGrass = tiles.findRegion("grass");
+		tileStoneDirt = tiles.findRegion("stone-dirt");
+		tileStoneGrass = tiles.findRegion("stone-grass");
 
 		TextureAtlas players = new TextureAtlas("sprites/player.pack");
 		playerPlayer = players.findRegion("player");
@@ -59,7 +69,20 @@ public class Assets {
 			for (int xp = 0; xp < islandStart[0].length; xp++) {
 				int color = islandStart[yp][xp];
 				if (color == 0xff000000) {
-					world.setTile(new TileDemo(), startX + xp, startY + yp);
+					// stone
+					world.setTile(new TileStone(), startX + xp, startY + yp);
+				} else if (color == 0xff404040) {
+					// stone-dirt
+					world.setTile(new TileStoneDirt(), startX + xp, startY + yp);
+				} else if (color == 0xff808080) {
+					// stone-grass
+					world.setTile(new TileStoneGrass(), startX + xp, startY + yp);
+				} else if (color == 0xffbfbfbf) {
+					// dirt
+					world.setTile(new TileDirt(), startX + xp, startY + yp);
+				} else if (color == 0xffe0e0e0) {
+					// grass
+					world.setTile(new TileGrass(), startX + xp, startY + yp);
 				} else if (color == 0xff0000ff) {
 					// TODO: set player position
 					world.setPlayerPosition(startX + xp, startY + yp);

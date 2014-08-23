@@ -1,11 +1,10 @@
 world generation
-	island position
-	island size
-	island shape
+*	island position
+	island type
 	ship parts
 
 world other
-	tiles layer
+*	tiles layer
 	entity layer
 	blocks fall if necessary
 	block falling entity
@@ -14,18 +13,20 @@ world other
 	turn blocks into items when they fall from to high
 
 player
-	movement
-	physics
-	collision
-	camera follows
+*	movement
+*	physics
+*	collision
+*	camera follows
+	sideways collision
+	inventory
 	wapon
 	item collection
 
 environment
-	background
-	paralaxing the background
-	time
-	base ambient lighting on the time
+*	background
+*	paralaxing the background
+*	time
+*	base ambient lighting on the time
 	add sun and moon
 	implement dynamic background coloring
 	add clouds

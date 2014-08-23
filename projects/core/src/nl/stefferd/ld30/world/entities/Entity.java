@@ -1,8 +1,8 @@
 package nl.stefferd.ld30.world.entities;
 
 import nl.stefferd.ld30.Renderable;
-import nl.stefferd.ld30.world.Tile;
 import nl.stefferd.ld30.world.World;
+import nl.stefferd.ld30.world.tiles.Tile;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;

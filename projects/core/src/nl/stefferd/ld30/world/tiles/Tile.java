@@ -1,6 +1,7 @@
-package nl.stefferd.ld30.world;
+package nl.stefferd.ld30.world.tiles;
 
 import nl.stefferd.ld30.Renderable;
+import nl.stefferd.ld30.world.Chunk;
 
 import com.badlogic.gdx.math.Rectangle;
 

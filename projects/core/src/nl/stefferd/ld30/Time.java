@@ -18,6 +18,7 @@ public class Time {
 
 	private Vector3Animation animation;
 	private float time = 0;
+	private long days = 0L;
 	
 	public Time() {
 		animation = new Vector3Animation(COLOR_KEYS);
@@ -25,6 +26,11 @@ public class Time {
 	
 	public void update() {
 		time += Gdx.graphics.getDeltaTime();
+		
+		if (time >= 480) {
+			time = 0;
+			days++;
+		}
 	}
 	
 	/**
@@ -56,6 +62,10 @@ public class Time {
 	
 	public float getTimeOfDay() {
 		return Math.abs(time) % animation.getDuration();
+	}
+	
+	public long getDays() {
+		return days;
 	}
 
 }

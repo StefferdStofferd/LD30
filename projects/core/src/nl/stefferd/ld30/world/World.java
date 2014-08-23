@@ -7,6 +7,7 @@ import nl.stefferd.ld30.Assets;
 import nl.stefferd.ld30.Renderable;
 import nl.stefferd.ld30.Time;
 import nl.stefferd.ld30.world.entities.Player;
+import nl.stefferd.ld30.world.tiles.Tile;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -21,7 +22,7 @@ public class World implements Renderable {
 	private int width, height;
 	
 	private Chunk[] chunks;
-	private OrthographicCamera camera;
+	private OrthographicCamera camera, backgroundCamera;
 	private Random random;
 	private Player player;
 	private ParalaxingBackground background;
@@ -42,6 +43,10 @@ public class World implements Renderable {
 		// set camera to the center of the world
 		camera.position.set(width * Chunk.SIZE * Tile.SIZE / 2,
 				height * Chunk.SIZE * Tile.SIZE / 2, 0);
+		
+		// Init the camera for the background stuff
+		backgroundCamera = new OrthographicCamera();
+		backgroundCamera.setToOrtho(false, 1280, 720);
 		
 		// init the player, the position will be set when start island is loaded
 		player = new Player(this, 0, 0);
@@ -90,6 +95,10 @@ public class World implements Renderable {
 				centerChunkY * Chunk.SIZE + yPos);
 	}
 	
+	long lastTime = System.currentTimeMillis();
+	int frames = 0;
+	int fps = 0;
+	
 	@Override
 	public void update() {
 		// update the time clock and print time
@@ -109,13 +118,24 @@ public class World implements Renderable {
 		// update the paralaxing backgrounds
 		background.update(camera.position.x, camera.position.y,
 				width * Chunk.SIZE * Tile.SIZE, height * Chunk.SIZE * Tile.SIZE);
+		
+		// update the camera for rendering the background
+		backgroundCamera.update();
+		
+		long now = System.currentTimeMillis();
+		if (now - lastTime >= 1000) {
+			lastTime = now;
+			fps = frames;
+			frames = 0;
+		}
 	}
 
 	@Override
 	public void render(SpriteBatch batch) {
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
-		// Apply the camera's transformations to the sprite rendering
-		batch.setProjectionMatrix(camera.combined);
+		
+		// Apply the background camera to the sprite batch
+		batch.setProjectionMatrix(backgroundCamera.combined);
 		
 		// render the sky first, so it is the farthest
 		sky.render(batch);
@@ -126,6 +146,9 @@ public class World implements Renderable {
 		
 		// render paralaxing backgrounds
 		background.render(batch);
+		
+		// Apply the camera's transformations for level's sprite rendering
+		batch.setProjectionMatrix(camera.combined);
 		
 		// Render all the chunks this world contains
 		for (int i = 0; i < chunks.length; i++) {
@@ -142,7 +165,12 @@ public class World implements Renderable {
 		batch.begin();
 		Assets.DEFAULT_FONT.draw(batch, "Time: " + time.getFormattedTime(),
 				xOffs + 25, yOffs - 25);
+		Assets.DEFAULT_FONT.draw(batch, "Day: " + time.getDays(), xOffs + 25,
+				yOffs - 45);
+		Assets.DEFAULT_FONT.draw(batch, "FPS: " + fps, xOffs + 25, yOffs - 65);
 		batch.end();
+		
+		frames++;
 	}
 	
 	/**

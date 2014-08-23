@@ -97,6 +97,16 @@ public abstract class Entity implements Renderable {
 		this.y = y;
 	}
 	
+	/**
+	 * Set the color of the entities sprite to some color, also called tinting.
+	 * @param r red color, 0-1 float
+	 * @param g green color, 0-1 float
+	 * @param b blue color, 0-1 float
+	 */
+	public void setColor(float r, float g, float b) {
+		sprite.setColor(r, g, b, 1);
+	}
+	
 	public boolean isGrounded() {
 		return world.touchesCollidableTile(getBounds());
 	}

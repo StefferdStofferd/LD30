@@ -5,6 +5,7 @@ import java.util.Random;
 
 import nl.stefferd.ld30.Assets;
 import nl.stefferd.ld30.Renderable;
+import nl.stefferd.ld30.Time;
 import nl.stefferd.ld30.world.entities.Player;
 
 import com.badlogic.gdx.Gdx;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 
 public class World implements Renderable {
 	
@@ -22,6 +24,7 @@ public class World implements Renderable {
 	private Random random;
 	private Player player;
 	private ParalaxingBackground background;
+	private Time time;
 	
 	public World(int width, int height) {
 		this.width = width;
@@ -50,6 +53,9 @@ public class World implements Renderable {
 				Assets.backgroundForest, Assets.backgroundMountains,
 				Assets.backgroundHills, Assets.backgroundIslands
 		});
+		
+		// init the time for ambient ligthing
+		time = new Time();
 	}
 	
 	/**
@@ -92,6 +98,11 @@ public class World implements Renderable {
 		camera.position.x = player.x;
 		camera.position.y = player.y + 100;
 		camera.update();
+		
+		// update the time clock and player color
+		time.update();
+		Vector3 v = time.getCurrentColor();
+		player.setColor(v.x, v.y, v.z);
 	}
 
 	@Override

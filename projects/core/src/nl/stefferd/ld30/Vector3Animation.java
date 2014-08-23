@@ -24,7 +24,7 @@ public class Vector3Animation {
 		for (int i = 0; i < keys.length; i++) {
 			if (animationTime < getBeginTime(i) + keys[i].duration) {
 				index = i;
-				continue;
+				break;
 			}
 		}
 		
@@ -72,7 +72,7 @@ public class Vector3Animation {
 		return res;
 	}
 	
-	public class KeyFrame {
+	public static class KeyFrame {
 		
 		private Vector3 value;
 		private float duration;

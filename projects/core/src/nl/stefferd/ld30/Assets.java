@@ -10,7 +10,6 @@ import nl.stefferd.ld30.world.TileDemo;
 import nl.stefferd.ld30.world.World;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

@@ -22,13 +22,13 @@ public class Chunk implements Renderable {
 		this.x = x;
 		this.y = y;
 		tiles = new Tile[SIZE * SIZE];
-		
+		/*
 		for (int yp = 0; yp < SIZE; yp++) {
 			for (int xp = 0; xp < SIZE; xp++) {
 				if ((xp + yp * SIZE) % 3 == 0)
 					tiles[xp + yp * SIZE] = new TileDemo(this, xp, yp);
 			}
-		}
+		}*/
 	}
 	
 	@Override
@@ -47,6 +47,16 @@ public class Chunk implements Renderable {
 			tiles[i].render(batch);
 		}
 		batch.end();
+	}
+	
+	/**
+	 * Sets the tile at a position to a new one.
+	 * @param tile tile to be set
+	 * @param x x-position within this chunk
+	 * @param y y-position within this chunk
+	 */
+	public void setTile(Tile tile, int x, int y) {
+		tiles[x + y * SIZE] = tile;
 	}
 	
 	public int getX() {

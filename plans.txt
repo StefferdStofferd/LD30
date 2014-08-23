@@ -1,0 +1,43 @@
+world generation
+	island position
+	island size
+	island shape
+	ship parts
+
+world other
+	tiles layer
+	entity layer
+	blocks fall if necessary
+	block falling entity
+	tiles destroyable
+	item floating entity
+	turn blocks into items when they fall from to high
+
+player
+	movement
+	physics
+	collision
+	camera follows
+	wapon
+	item collection
+
+environment
+	background
+	paralaxing the background
+	time
+	base ambient lighting on the time
+	add sun and moon
+	implement dynamic background coloring
+	add clouds
+	make clouds move, at different speeds
+
+goals
+	add way of displaying ship part
+	make list of the parts necessary (varying in size?)
+	add way of returning the parts
+	keeping track of teh score
+	make an ending
+
+enemies
+	think of types
+	place to spawn

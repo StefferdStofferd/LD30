@@ -101,8 +101,6 @@ public class World implements Renderable {
 		
 		// update the time clock and player color
 		time.update();
-		Vector3 v = time.getCurrentColor();
-		player.setColor(v.x, v.y, v.z);
 	}
 
 	@Override
@@ -110,6 +108,10 @@ public class World implements Renderable {
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
 		// Apply the camera's transformations to the sprite rendering
 		batch.setProjectionMatrix(camera.combined);
+		
+		// apply the ambient lighting
+		Vector3 v = time.getCurrentColor();
+		batch.setColor(v.x, v.y, v.z, 1);
 		
 		// render paralaxing backgrounds
 		background.render(batch);

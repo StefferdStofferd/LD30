@@ -95,13 +95,6 @@ public class World implements Renderable {
 		// update the time clock and print time
 		time.update();
 		System.out.println(time.getFormattedTime());
-
-		// update the sky background to correspond with the time
-		sky.update();
-		
-		// update the paralaxing backgrounds
-		background.update(camera.position.x, camera.position.y,
-				width * Chunk.SIZE * Tile.SIZE, height * Chunk.SIZE * Tile.SIZE);
 		
 		// update the player for movement
 		player.update();
@@ -110,6 +103,13 @@ public class World implements Renderable {
 		camera.position.x = player.x;
 		camera.position.y = player.y + 100;
 		camera.update();
+
+		// update the sky background to correspond with the time
+		sky.update();
+		
+		// update the paralaxing backgrounds
+		background.update(camera.position.x, camera.position.y,
+				width * Chunk.SIZE * Tile.SIZE, height * Chunk.SIZE * Tile.SIZE);
 	}
 
 	@Override

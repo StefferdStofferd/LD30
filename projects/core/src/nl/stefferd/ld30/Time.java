@@ -37,13 +37,13 @@ public class Time {
 	
 	public String getFormattedTime() {
 		// calculate the hours and add leading zeros
-		int hours = (int)((time % 480) / 60 * 30);
+		int hours = (int)((time % 480) / 60 * 3);
 		String sHours = hours + "";
 		if (hours < 10)
 			sHours = "0" + hours;
 		
 		// calculate the minutes and add leading zeros
-		int minutes = (int)((time % 20) * 30);
+		int minutes = (int)((time % 20) * 3);
 		String sMinutes = minutes + "";
 		if (minutes < 10)
 			sMinutes = "0" + minutes;

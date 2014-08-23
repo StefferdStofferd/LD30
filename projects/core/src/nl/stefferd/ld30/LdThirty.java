@@ -1,5 +1,7 @@
 package nl.stefferd.ld30;
 
+import java.io.IOException;
+
 import nl.stefferd.ld30.world.World;
 
 import com.badlogic.gdx.Game;
@@ -14,9 +16,15 @@ public class LdThirty extends Game {
 	
 	@Override
 	public void create () {
-		Assets.load();
+		try {
+			Assets.load();
+		} catch (IOException e) {
+			System.err.println("Error loading assets...");
+			e.printStackTrace();
+			System.exit(1);
+		}
 		batch = new SpriteBatch();
-		world = new World(1, 1);
+		world = new World(3, 3);
 	}
 
 	@Override

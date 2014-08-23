@@ -56,6 +56,14 @@ public class Chunk implements Renderable {
 	 * @param y y-position within this chunk
 	 */
 	public void setTile(Tile tile, int x, int y) {
+		// Set this chunk as the parent
+		tile.setChunk(this);
+		
+		// check whether the tile is in the bounds of this chunk
+		if (x < 0 || x >= SIZE || y < 0 || y >= SIZE)
+			return;
+		
+		// Add the tile to the tiles array
 		tiles[x + y * SIZE] = tile;
 	}
 	

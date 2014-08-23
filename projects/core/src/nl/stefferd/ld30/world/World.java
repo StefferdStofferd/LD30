@@ -2,11 +2,14 @@ package nl.stefferd.ld30.world;
 
 import java.util.Random;
 
+import nl.stefferd.ld30.Assets;
 import nl.stefferd.ld30.Renderable;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 
 public class World implements Renderable {
 	
@@ -27,9 +30,12 @@ public class World implements Renderable {
 		// Init the camera (orthographic) to the dimensions of the screen
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		// set camera to the center of the world
+		camera.position.set(width * Chunk.SIZE * Tile.SIZE / 2,
+				height * Chunk.SIZE * Tile.SIZE / 2, 0);
 		
 		// generate the world based on the random class set
-		random = new Random(1);
+		random = new Random(0);
 		generateWorld();
 	}
 	
@@ -46,25 +52,32 @@ public class World implements Renderable {
 	 */
 	private void addStarterIsland() {
 		// Get the center chunk
-		int centerChunkIndex = width / 2 + height / 2 * width;
+		int centerChunkX = width / 2;
+		int centerChunkY = height / 2;
 		
 		// Random center position for the island in the chunk
 		int xPos = random.nextInt(Chunk.SIZE);
 		int yPos = random.nextInt(Chunk.SIZE);
+		xPos = 15;
+		yPos = 15;
 		
 		// adds the tile to the chunk
-		// TODO: make easier way of adding tiles to a chunk
-		chunks[centerChunkIndex].setTile(new TileDemo(chunks[centerChunkIndex],
-				xPos, yPos), xPos, yPos);
+		Assets.addIsland(this, centerChunkX * Chunk.SIZE + xPos,
+				centerChunkY * Chunk.SIZE + yPos);
 	}
-
-	float f = 0;
 	
 	@Override
 	public void update() {
-		f += 128 * Gdx.graphics.getDeltaTime();
-		camera.position.x = f;
+		Vector3 movement = new Vector3();
+		if (Gdx.input.isKeyPressed(Keys.W)) movement.y = 1;
+		if (Gdx.input.isKeyPressed(Keys.S)) movement.y = -1;
+		if (Gdx.input.isKeyPressed(Keys.A)) movement.x = -1;
+		if (Gdx.input.isKeyPressed(Keys.D)) movement.x = 1;
+		movement.nor().scl(521 * Gdx.graphics.getDeltaTime());
+		camera.position.add(movement);
 		camera.update();
+		System.out.println((int)camera.position.x / (int)Tile.SIZE + ", " +
+				(int)camera.position.y / (int)Tile.SIZE);
 	}
 
 	@Override
@@ -76,6 +89,39 @@ public class World implements Renderable {
 		for (int i = 0; i < chunks.length; i++) {
 			chunks[i].render(batch);
 		}
+	}
+	
+	/**
+	 * Sets a tile to the chunk the position is in. Overrides a tile if one was
+	 * already set.
+	 * @param tile tile to be set
+	 * @param x absolute x index of the tile
+	 * @param y absolute y index of the tile
+	 * @return true of false, success or not respectively
+	 */
+	public boolean setTile(Tile tile, int x, int y) {
+		// Get the chunk position where the tile is in
+		int chunkX = x / Chunk.SIZE;
+		int chunkY = y / Chunk.SIZE;
+		
+		// Stop if not within world bounds
+		if (chunkX < 0 || chunkX >= width ||
+				chunkY < 0 || chunkY >= height)
+			return false;
+		
+		// Get the tile position within the chunk
+		int tileX = x % Chunk.SIZE;
+		int tileY = y % Chunk.SIZE;
+		
+		// Set the position of the tile
+		tile.x = tileX;
+		tile.y = tileY;
+		
+		// If within bounds
+		chunks[chunkX + chunkY * width].setTile(tile, tileX, tileY);
+		
+		// success
+		return true;
 	}
 	
 }

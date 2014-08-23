@@ -6,8 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TileDemo extends Tile {
 
-	public TileDemo(Chunk chunk, int x, int y) {
-		super(chunk, x, y);
+	public TileDemo() {
+		super();
+	}
+	
+	public TileDemo(int x, int y) {
+		super(x, y);
 	}
 
 	@Override

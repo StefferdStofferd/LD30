@@ -250,7 +250,7 @@ public class World implements Renderable {
 					if (chunk.getTile(x, y) != null) {
 						Tile tile = chunk.getTile(x, y);
 						if (tile.getAbsoluteRectangle()
-								.overlaps(rect))
+								.overlaps(rect) && tile.isSolid())
 							colliding = true;
 					}
 			

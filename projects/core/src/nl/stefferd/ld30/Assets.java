@@ -12,6 +12,7 @@ import nl.stefferd.ld30.world.tiles.TileGrass;
 import nl.stefferd.ld30.world.tiles.TileStone;
 import nl.stefferd.ld30.world.tiles.TileStoneDirt;
 import nl.stefferd.ld30.world.tiles.TileStoneGrass;
+import nl.stefferd.ld30.world.tiles.TileWood;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,7 +25,7 @@ public class Assets {
 	public static final BitmapFont DEFAULT_FONT = new BitmapFont();
 	
 	public static TextureRegion tileDemo, tileStone, tileDirt, tileGrass,
-								tileStoneDirt, tileStoneGrass;
+								tileStoneDirt, tileStoneGrass, tileWood;
 	
 	public static TextureRegion playerPlayer;
 	
@@ -41,6 +42,7 @@ public class Assets {
 		tileGrass = tiles.findRegion("grass");
 		tileStoneDirt = tiles.findRegion("stone-dirt");
 		tileStoneGrass = tiles.findRegion("stone-grass");
+		tileWood = tiles.findRegion("wood");
 
 		TextureAtlas players = new TextureAtlas("sprites/player.pack");
 		playerPlayer = players.findRegion("player");
@@ -84,8 +86,11 @@ public class Assets {
 					// grass
 					world.setTile(new TileGrass(), startX + xp, startY + yp);
 				} else if (color == 0xff0000ff) {
-					// TODO: set player position
+					// set the player position
 					world.setPlayerPosition(startX + xp, startY + yp);
+				} else if (color == 0xff7f3300) {
+					// wood
+					world.setTile(new TileWood(), startX + xp, startY + yp);
 				}
 			}
 		}

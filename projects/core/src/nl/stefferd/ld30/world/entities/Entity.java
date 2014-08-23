@@ -5,7 +5,7 @@ import nl.stefferd.ld30.world.Tile;
 import nl.stefferd.ld30.world.World;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Entity implements Renderable {
 
@@ -26,9 +26,11 @@ public abstract class Entity implements Renderable {
 	 */
 	@Override
 	public void update() {
-		yMomentum += -9.8f * Gdx.graphics.getDeltaTime() * Tile.SIZE;
+		yMomentum += -9.8f * Gdx.graphics.getDeltaTime() * Tile.SIZE * 2;
 		if (isGrounded() && yMomentum < 0)
 			yMomentum = 0;
+		
+		//System.out.println(isGrounded() + "@" + x + ", " + y);
 		
 		move(0, yMomentum * Gdx.graphics.getDeltaTime());
 	}
@@ -62,12 +64,7 @@ public abstract class Entity implements Renderable {
 	}
 	
 	public boolean isGrounded() {
-		Vector2 offs = getCollisionPointOffset();
-		return world.isTileAt(x + offs.x, y + offs.y);
-	}
-	
-	public boolean wouldBeGrounded(float x, float y) {
-		return world.isTileAt(x, y);
+		return world.touchesCollidableTile(getBounds());
 	}
 	
 	/**
@@ -83,6 +80,6 @@ public abstract class Entity implements Renderable {
 	 * collision.
 	 * @return
 	 */
-	protected abstract Vector2 getCollisionPointOffset();
+	protected abstract Rectangle getBounds();
 	
 }

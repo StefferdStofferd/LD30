@@ -2,13 +2,16 @@ package nl.stefferd.ld30.world;
 
 import nl.stefferd.ld30.Renderable;
 
+import com.badlogic.gdx.math.Rectangle;
+
 public abstract class Tile implements Renderable {
 	
 	public static final float SIZE = 64;
 
 	protected Chunk chunk;
-	public int x;
-	public int y;
+	private int x;
+	private int y;
+	private Rectangle rect;
 	
 	/**
 	 * Empty constructor for a tile. The parent chunk needs to be set before
@@ -77,6 +80,10 @@ public abstract class Tile implements Renderable {
 		return getAbsoluteYIndex() * SIZE;
 	}
 	
+	public Rectangle getAbsoluteRectangle() {
+		return rect;
+	}
+	
 	/**
 	 * Sets the parent chunk for this tile. A chunk has to be set before the
 	 * tile can be used.
@@ -84,6 +91,7 @@ public abstract class Tile implements Renderable {
 	 */
 	public void setChunk(Chunk chunk) {
 		this.chunk = chunk;
+		rect = new Rectangle(getAbsoluteX(), getAbsoluteY(), SIZE, SIZE);
 	}
 	
 	/**
@@ -93,6 +101,18 @@ public abstract class Tile implements Renderable {
 	 */
 	public boolean isUsable() {
 		return chunk != null;
+	}
+	
+	public void setX(int x) {
+		this.x = x;
+		if (isUsable())
+			rect = new Rectangle(getAbsoluteX(), getAbsoluteY(), SIZE, SIZE);
+	}
+	
+	public void setY(int y) {
+		this.y = y;
+		if (isUsable())
+			rect = new Rectangle(getAbsoluteX(), getAbsoluteY(), SIZE, SIZE);
 	}
 	
 }

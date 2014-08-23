@@ -3,6 +3,7 @@ package nl.stefferd.ld30.world;
 import nl.stefferd.ld30.Renderable;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Chunk implements Renderable {
 	
@@ -10,6 +11,7 @@ public class Chunk implements Renderable {
 	
 	private int x;
 	private int y;
+	private Rectangle rect;
 	private Tile[] tiles;
 	
 	/**
@@ -21,6 +23,8 @@ public class Chunk implements Renderable {
 	public Chunk(int x, int y) {
 		this.x = x;
 		this.y = y;
+		rect = new Rectangle(x * SIZE * Tile.SIZE, y * SIZE * Tile.SIZE,
+				SIZE * Tile.SIZE, SIZE * Tile.SIZE);
 		tiles = new Tile[SIZE * SIZE];
 		/*
 		for (int yp = 0; yp < SIZE; yp++) {
@@ -75,6 +79,10 @@ public class Chunk implements Renderable {
 	 */
 	public Tile getTile(int x, int y) {
 		return tiles[x + y * SIZE];
+	}
+	
+	public Rectangle getAbsoluteRectangle() {
+		return rect;
 	}
 	
 	public int getX() {

@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.resizable = false;
 		config.width = 1280;
 		config.height = 720;
+		config.title = "Ludum Dare #30";
 		new LwjglApplication(new LdThirty(), config);
 	}
 }

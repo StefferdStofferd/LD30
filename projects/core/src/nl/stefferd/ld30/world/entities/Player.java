@@ -6,6 +6,7 @@ import nl.stefferd.ld30.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Entity {
@@ -30,7 +31,7 @@ public class Player extends Entity {
 		move(movement.x, movement.y);
 		
 		// listen for jump input
-		if (Gdx.input.isKeyJustPressed(Keys.W) && isGrounded()) jump(500);
+		if (Gdx.input.isKeyJustPressed(Keys.W) && isGrounded()) jump(750);
 		
 		// Call the super version of the update function, to deal with physics
 		super.update();
@@ -43,8 +44,8 @@ public class Player extends Entity {
 		batch.end();
 	}
 	
-	protected Vector2 getCollisionPointOffset() {
-		return new Vector2(32, -10);
+	protected Rectangle getBounds() {
+		return new Rectangle(x, y, 64, 64);
 	}
 
 }

@@ -1,5 +1,6 @@
 package nl.stefferd.ld30.world;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import nl.stefferd.ld30.Assets;
@@ -9,6 +10,7 @@ import nl.stefferd.ld30.world.entities.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public class World implements Renderable {
 	
@@ -117,8 +119,8 @@ public class World implements Renderable {
 		int tileY = y % Chunk.SIZE;
 		
 		// Set the position of the tile
-		tile.x = tileX;
-		tile.y = tileY;
+		tile.setX(tileX);
+		tile.setY(tileY);
 		
 		// If within bounds
 		chunks[chunkX + chunkY * width].setTile(tile, tileX, tileY);
@@ -151,6 +153,44 @@ public class World implements Renderable {
 		Tile tile = chunks[chunkX + chunkY * width].getTile(tileX, tileY);
 		
 		return tile != null;
+	}
+	
+	public boolean touchesCollidableTile(Rectangle rect) {
+		// TODO: optimize
+		// Collect all colliding chunks
+		ArrayList<Chunk> chunkList = new ArrayList<Chunk>();
+		
+		for (int i = 0; i < chunks.length; i++)
+			if (rect.overlaps(chunks[i].getAbsoluteRectangle()))
+				chunkList.add(chunks[i]);
+		
+		boolean colliding = false;
+		
+		System.out.println(chunkList.size());
+		if (chunkList.size() > 0)
+			System.out.println(chunkList.get(0).getAbsoluteRectangle());
+		
+		// Check for tiles in the chunks
+		for (Chunk chunk : chunkList) {
+			for (int y = 0; y < Chunk.SIZE && !colliding; y++)
+				for (int x = 0; x < Chunk.SIZE && !colliding; x++)
+					if (chunk.getTile(x, y) != null) {
+						Tile tile = chunk.getTile(x, y);
+						if (!tile.isUsable()) {
+							System.out.println("ohhno");
+							continue;
+						}
+						//System.out.println(tile.getAbsoluteRectangle());
+						if (tile.getAbsoluteRectangle()
+								.overlaps(rect))
+							colliding = true;
+					}
+			
+			if (colliding)
+				break;
+		}
+		
+		return colliding;
 	}
 	
 	/**

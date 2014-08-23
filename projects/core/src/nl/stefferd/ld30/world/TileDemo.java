@@ -24,4 +24,9 @@ public class TileDemo extends Tile {
 		batch.draw(Assets.tileDemo, getAbsoluteX(), getAbsoluteY());
 	}
 	
+	@Override
+	public boolean isSolid() {
+		return true;
+	}
+	
 }

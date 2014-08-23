@@ -3,6 +3,8 @@ package nl.stefferd.ld30.world;
 import nl.stefferd.ld30.Renderable;
 
 public abstract class Tile implements Renderable {
+	
+	public static final float SIZE = 128;
 
 	protected Chunk chunk;
 	public int x;
@@ -38,6 +40,22 @@ public abstract class Tile implements Renderable {
 	 */
 	public int getAbsoluteYIndex() {
 		return chunk.getY() * Chunk.SIZE + y;
+	}
+	
+	/**
+	 * Returns the absolute x pixel position of the tile in the world.
+	 * @return any float, most likely positive
+	 */
+	public float getAbsoluteX() {
+		return getAbsoluteXIndex() * SIZE;
+	}
+
+	/**
+	 * Returns the absolute y pixel position of the tile in the world.
+	 * @return any float, most likely positive
+	 */
+	public float getAbsoluteY() {
+		return getAbsoluteYIndex() * SIZE;
 	}
 	
 }

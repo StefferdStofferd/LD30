@@ -27,8 +27,7 @@ public abstract class Entity implements Renderable {
 	@Override
 	public void update() {
 		yMomentum += -9.8f * Gdx.graphics.getDeltaTime() * Tile.SIZE;
-		if (isGrounded() ||
-				wouldBeGrounded(x,y + yMomentum * Gdx.graphics.getDeltaTime()))
+		if (isGrounded() && yMomentum < 0)
 			yMomentum = 0;
 		
 		move(0, yMomentum * Gdx.graphics.getDeltaTime());

@@ -99,8 +99,9 @@ public class World implements Renderable {
 		camera.position.y = player.y + 100;
 		camera.update();
 		
-		// update the time clock and player color
+		// update the time clock and print time
 		time.update();
+		System.out.println(time.getFormattedTime());
 	}
 
 	@Override

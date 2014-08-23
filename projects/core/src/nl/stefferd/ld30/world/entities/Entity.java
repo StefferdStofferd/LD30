@@ -58,6 +58,7 @@ public abstract class Entity implements Renderable {
 	public void render(SpriteBatch batch) {
 		batch.begin();
 		sprite.setPosition(x, y);
+		sprite.setColor(batch.getColor());
 		sprite.draw(batch);
 		batch.end();
 	}
@@ -95,16 +96,6 @@ public abstract class Entity implements Renderable {
 	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;
-	}
-	
-	/**
-	 * Set the color of the entities sprite to some color, also called tinting.
-	 * @param r red color, 0-1 float
-	 * @param g green color, 0-1 float
-	 * @param b blue color, 0-1 float
-	 */
-	public void setColor(float r, float g, float b) {
-		sprite.setColor(r, g, b, 1);
 	}
 	
 	public boolean isGrounded() {

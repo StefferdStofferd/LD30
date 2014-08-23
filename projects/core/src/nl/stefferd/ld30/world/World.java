@@ -94,7 +94,6 @@ public class World implements Renderable {
 	public void update() {
 		// update the time clock and print time
 		time.update();
-		System.out.println(time.getFormattedTime());
 		
 		// update the player for movement
 		player.update();
@@ -135,6 +134,14 @@ public class World implements Renderable {
 		
 		// Render the player on top
 		player.render(batch);
+		
+		// Render the UI text
+		float xOffs = camera.position.x - camera.viewportWidth / 2;
+		float yOffs = camera.position.y + camera.viewportHeight / 2;
+		batch.begin();
+		Assets.DEFAULT_FONT.draw(batch, "Time: " + time.getFormattedTime(),
+				xOffs + 25, yOffs - 25);
+		batch.end();
 	}
 	
 	/**

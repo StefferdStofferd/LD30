@@ -124,4 +124,14 @@ public class World implements Renderable {
 		return true;
 	}
 	
+	/**
+	 * Sets the position of the player to a tile. Thus snaps to a 64x64 grid.
+	 * @param x absolute tile x index
+	 * @param y absolute tile y index
+	 */
+	public void setPlayerPosition(int x, int y) {
+		camera.position.set(x * Tile.SIZE + Tile.SIZE / 2,
+				y * Tile.SIZE + Tile.SIZE / 2, 0);
+	}
+	
 }

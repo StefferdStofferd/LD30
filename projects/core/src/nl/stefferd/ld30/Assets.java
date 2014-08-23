@@ -42,6 +42,9 @@ public class Assets {
 				int color = islandStart[yp][xp];
 				if (color == 0xff000000) {
 					world.setTile(new TileDemo(), startX + xp, startY + yp);
+				} else if (color == 0xff0000ff) {
+					// TODO: set player position
+					world.setPlayerPosition(startX + xp, startY + yp);
 				}
 			}
 		}

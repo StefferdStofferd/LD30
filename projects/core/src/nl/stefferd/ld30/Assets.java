@@ -21,7 +21,7 @@ public class Assets {
 	public static TextureRegion playerPlayer;
 	
 	public static Texture backgroundForest, backgroundHills, backgroundIslands,
-						  backgroundMountains;
+						  backgroundMountains, backgroundNightSky;
 	
 	private static int[][] islandStart;
 	
@@ -36,6 +36,7 @@ public class Assets {
 		backgroundHills = new Texture(Gdx.files.internal("backgrounds/hills.png"));
 		backgroundIslands = new Texture(Gdx.files.internal("backgrounds/islands.png"));
 		backgroundMountains = new Texture(Gdx.files.internal("backgrounds/mountains.png"));
+		backgroundNightSky = new Texture(Gdx.files.internal("backgrounds/night_sky.png"));
 		
 		islandStart = getPixelArray(ImageIO.read(Gdx.files.internal("islands/start.png").read()));
 	}

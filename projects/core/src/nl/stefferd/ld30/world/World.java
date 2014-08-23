@@ -9,6 +9,7 @@ import nl.stefferd.ld30.Time;
 import nl.stefferd.ld30.world.entities.Player;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,6 +25,7 @@ public class World implements Renderable {
 	private Random random;
 	private Player player;
 	private ParalaxingBackground background;
+	private SkyBackground sky;
 	private Time time;
 	
 	public World(int width, int height) {
@@ -47,6 +49,9 @@ public class World implements Renderable {
 		// generate the world based on the random class set
 		random = new Random(0);
 		generateWorld();
+
+		// init the sky background images
+		sky = new SkyBackground(this);
 		
 		// init the paralaxing background
 		background = new ParalaxingBackground(new Texture[] {
@@ -87,6 +92,13 @@ public class World implements Renderable {
 	
 	@Override
 	public void update() {
+		// update the time clock and print time
+		time.update();
+		System.out.println(time.getFormattedTime());
+
+		// update the sky background to correspond with the time
+		sky.update();
+		
 		// update the paralaxing backgrounds
 		background.update(camera.position.x, camera.position.y,
 				width * Chunk.SIZE * Tile.SIZE, height * Chunk.SIZE * Tile.SIZE);
@@ -98,10 +110,6 @@ public class World implements Renderable {
 		camera.position.x = player.x;
 		camera.position.y = player.y + 100;
 		camera.update();
-		
-		// update the time clock and print time
-		time.update();
-		System.out.println(time.getFormattedTime());
 	}
 
 	@Override
@@ -109,6 +117,9 @@ public class World implements Renderable {
 		Gdx.gl.glClearColor(0.5f, 0.5f, 1, 1);
 		// Apply the camera's transformations to the sprite rendering
 		batch.setProjectionMatrix(camera.combined);
+		
+		// render the sky first, so it is the farthest
+		sky.render(batch);
 		
 		// apply the ambient lighting
 		Vector3 v = time.getCurrentColor();
@@ -229,6 +240,14 @@ public class World implements Renderable {
 	 */
 	public Player getPlayer() {
 		return player;
+	}
+	
+	/**
+	 * Returns the camera that is currently used to show the game
+	 * @return Camera object
+	 */
+	public Camera getCurrentCamera() {
+		return camera;
 	}
 	
 }

@@ -15,7 +15,7 @@ public class Time {
 		new Vector3Animation.KeyFrame(new Vector3(0.8f, 0.3f, 0.3f), 15),
 		new Vector3Animation.KeyFrame(new Vector3(0.25f, 0.25f, 0.3f), 30),
 	};
-	
+
 	private Vector3Animation animation;
 	private float time = 0;
 	
@@ -48,6 +48,14 @@ public class Time {
 		if (minutes < 10)
 			sMinutes = "0" + minutes;
 		return sHours + ":" + sMinutes;
+	}
+	
+	public float getTime() {
+		return time;
+	}
+	
+	public float getTimeOfDay() {
+		return Math.abs(time) % animation.getDuration();
 	}
 
 }

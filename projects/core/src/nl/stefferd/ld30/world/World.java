@@ -135,6 +135,7 @@ public class World implements Renderable {
 		// Render the player on top
 		player.render(batch);
 		
+		// TODO: give own camera for UI
 		// Render the UI text
 		float xOffs = camera.position.x - camera.viewportWidth / 2;
 		float yOffs = camera.position.y + camera.viewportHeight / 2;
@@ -255,6 +256,22 @@ public class World implements Renderable {
 	 */
 	public Camera getCurrentCamera() {
 		return camera;
+	}
+	
+	/**
+	 * Returns the time the world has been running, in seconds
+	 * @return float
+	 */
+	public float getTime() {
+		return time.getTime();
+	}
+	
+	/**
+	 * Returns the amount of seconds into this day
+	 * @return float
+	 */
+	public float getTimeOfDay() {
+		return time.getTimeOfDay();
 	}
 	
 }

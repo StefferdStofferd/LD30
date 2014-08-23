@@ -34,8 +34,6 @@ public class ParalaxingBackground {
 	 * @param width world height
 	 */
 	public void update(float x, float y, float width, float height) {
-		// TODO: stop the jittering
-		
 		// calculate the offset of the camera from the center
 		double xOffs = width / 2 - x;
 		double yOffs = height / 2 - y;

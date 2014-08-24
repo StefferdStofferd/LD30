@@ -73,6 +73,16 @@ public class Chunk implements Renderable {
 	}
 	
 	/**
+	 * Removes the tile at the given position by settings it to null
+	 * @param x
+	 * @param y
+	 */
+	public void removeTile(int x, int y) {
+		// Set tile to null at given index
+		tiles[x + y * SIZE] = null;
+	}
+	
+	/**
 	 * Returns the tile at the position given
 	 * @param x x position to get the tile
 	 * @param y y position to get the tile

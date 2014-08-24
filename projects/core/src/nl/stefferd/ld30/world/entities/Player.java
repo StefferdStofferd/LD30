@@ -76,7 +76,7 @@ public class Player extends Entity {
 	final Vector2 center = new Vector2(1280/2, 720/2+100-32);
 	private void shootDemat() {
 		Vector2 mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
-		world.addEntity(new DematBullit(world, x + 32, y + 32,
+		world.addEntity(new DematBullet(world, x + 32, y + 32,
 				mouse.sub(center).scl(1, -1)));
 	}
 	

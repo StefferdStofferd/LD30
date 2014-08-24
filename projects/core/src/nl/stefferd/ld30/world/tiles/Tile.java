@@ -45,8 +45,20 @@ public abstract class Tile implements Renderable {
 		this.y = y;
 	}
 	
+	/**
+	 * Removes this tile fromt the worldq
+	 */
+	public void remove() {
+		// Remove this tile from the chunk
+		chunk.removeTile(x, y);
+	}
+	
 	public boolean isSolid() {
 		return false;
+	}
+	
+	public boolean isBreakable() {
+		return true;
 	}
 	
 	/**
@@ -114,6 +126,18 @@ public abstract class Tile implements Renderable {
 		this.y = y;
 		if (isUsable())
 			rect = new Rectangle(getAbsoluteX(), getAbsoluteY(), SIZE, SIZE);
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public Chunk getChunk() {
+		return chunk;
 	}
 	
 }

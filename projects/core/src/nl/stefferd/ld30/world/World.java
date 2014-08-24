@@ -108,8 +108,9 @@ public class World implements Renderable {
 		time.update();
 		
 		// update all the entities in the world
-		for (Entity entity : entities)
-			entity.update();
+		if (entities.size() > 0)
+			for (int i = 0; i < entities.size(); i++)
+				entities.get(i).update();
 		
 		// update the player for movement
 		player.update();
@@ -224,10 +225,20 @@ public class World implements Renderable {
 	 * @return true or false, none-void or void tile respectively
 	 */
 	public boolean isTileAt(float x, float y) {
+		return getTileAt(x, y) != null;
+	}
+	
+	/**
+	 * Return the tile that is positioned at the position specified.
+	 * @param x absolute world x coordinate
+	 * @param y absolute world y coordinate
+	 * @return Tile object
+	 */
+	public Tile getTileAt(float x, float y) {
 		// check whether the position is in the bounds of the level
 		if (x < 0 || x >= width * Chunk.SIZE * Tile.SIZE ||
 				y < 0 || y >= height * Chunk.SIZE * Tile.SIZE)
-			return false;
+			return null;
 		
 		// get the chunk indices the position is in
 		int chunkX = (int)x / (int)(Chunk.SIZE * Tile.SIZE);
@@ -240,7 +251,21 @@ public class World implements Renderable {
 		// get the tile from the chunk
 		Tile tile = chunks[chunkX + chunkY * width].getTile(tileX, tileY);
 		
-		return tile != null;
+		return tile;
+	}
+	
+	/**
+	 * Breaks a tile
+	 * @param tile
+	 */
+	public void breakTile(Tile tile) {
+		// Check for breakability
+		if (!tile.isBreakable())
+			return;
+		
+		// Remove the tile from the parent chunk
+		tile.remove();
+		// TODO: fancy breaking animation stuff
 	}
 	
 	public boolean touchesCollidableTile(Rectangle rect) {

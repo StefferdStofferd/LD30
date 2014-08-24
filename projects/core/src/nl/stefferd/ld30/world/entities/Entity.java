@@ -3,6 +3,7 @@ package nl.stefferd.ld30.world.entities;
 import nl.stefferd.ld30.Renderable;
 import nl.stefferd.ld30.world.World;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -16,6 +17,7 @@ public abstract class Entity implements Renderable {
 	public float y;
 	protected World world;
 	protected Sprite sprite;
+	protected float lifetime = 0;
 	
 	public Entity(World world, Sprite sprite, float x, float y) {
 		this.world = world;
@@ -29,7 +31,7 @@ public abstract class Entity implements Renderable {
 	 */
 	@Override
 	public void update() {
-		
+		lifetime += Gdx.graphics.getDeltaTime();
 	}
 	
 	@Override

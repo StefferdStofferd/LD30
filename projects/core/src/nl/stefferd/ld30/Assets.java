@@ -29,6 +29,8 @@ public class Assets {
 	
 	public static TextureRegion playerPlayer;
 	
+	public static TextureRegion entityDematBullit;
+	
 	public static Texture backgroundForest, backgroundHills, backgroundIslands,
 						  backgroundMountains, backgroundNightSky;
 	
@@ -46,6 +48,9 @@ public class Assets {
 
 		TextureAtlas players = new TextureAtlas("sprites/player.pack");
 		playerPlayer = players.findRegion("player");
+
+		TextureAtlas entities = new TextureAtlas("sprites/entities.pack");
+		entityDematBullit = entities.findRegion("demat-bullit");
 		
 		backgroundForest = new Texture(Gdx.files.internal("backgrounds/forest.png"));
 		backgroundHills = new Texture(Gdx.files.internal("backgrounds/hills.png"));

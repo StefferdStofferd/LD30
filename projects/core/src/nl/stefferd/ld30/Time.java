@@ -17,7 +17,7 @@ public class Time {
 	};
 
 	private Vector3Animation animation;
-	private float time = 0;
+	private float time = 150;
 	private long days = 0L;
 	
 	public Time() {

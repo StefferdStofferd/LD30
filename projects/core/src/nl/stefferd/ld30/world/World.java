@@ -6,6 +6,7 @@ import java.util.Random;
 import nl.stefferd.ld30.Assets;
 import nl.stefferd.ld30.Renderable;
 import nl.stefferd.ld30.Time;
+import nl.stefferd.ld30.world.entities.Entity;
 import nl.stefferd.ld30.world.entities.Player;
 import nl.stefferd.ld30.world.tiles.Tile;
 
@@ -20,6 +21,8 @@ import com.badlogic.gdx.math.Vector3;
 public class World implements Renderable {
 	
 	private int width, height;
+	
+	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	
 	private Chunk[] chunks;
 	private OrthographicCamera camera, backgroundCamera;
@@ -104,11 +107,15 @@ public class World implements Renderable {
 		// update the time clock and print time
 		time.update();
 		
+		// update all the entities in the world
+		for (Entity entity : entities)
+			entity.update();
+		
 		// update the player for movement
 		player.update();
 		
 		// make the camera follow the player
-		camera.position.x = player.x;
+		camera.position.x = player.x + 32;
 		camera.position.y = player.y + 100;
 		camera.update();
 
@@ -154,6 +161,10 @@ public class World implements Renderable {
 		for (int i = 0; i < chunks.length; i++) {
 			chunks[i].render(batch);
 		}
+		
+		// render all the entities in the world
+		for (Entity entity : entities)
+			entity.render(batch);
 		
 		// Render the player on top
 		player.render(batch);
@@ -300,6 +311,22 @@ public class World implements Renderable {
 	 */
 	public float getTimeOfDay() {
 		return time.getTimeOfDay();
+	}
+	
+	/**
+	 * Removes an entity from the list
+	 * @param entity entity to remove
+	 */
+	public void removeEntity(Entity entity) {
+		entities.remove(entity);
+	}
+	
+	/**
+	 * Adds an entity to the world class' list
+	 * @param entity
+	 */
+	public void addEntity(Entity entity) {
+		entities.add(entity);
 	}
 	
 }

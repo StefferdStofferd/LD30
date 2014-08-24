@@ -2,13 +2,10 @@ package nl.stefferd.ld30.world.entities;
 
 import nl.stefferd.ld30.Renderable;
 import nl.stefferd.ld30.world.World;
-import nl.stefferd.ld30.world.tiles.Tile;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity implements Renderable {
 	
@@ -20,38 +17,19 @@ public abstract class Entity implements Renderable {
 	protected World world;
 	protected Sprite sprite;
 	
-	private Vector2 momentum;
-	
 	public Entity(World world, Sprite sprite, float x, float y) {
 		this.world = world;
 		this.sprite = sprite;
 		this.x = x;
 		this.y = y;
-		momentum = new Vector2();
 	}
-	
-	boolean walking = false;
-	float direction = RIGHT;
 	
 	/**
 	 * Method that should be called by all the children of this class.
 	 */
 	@Override
 	public void update() {
-		momentum.y += -9.8f * Gdx.graphics.getDeltaTime() * Tile.SIZE * 2;
-		if (isGrounded() && momentum.y < 0)
-			momentum.y = 0;
-		// TODO: make landing nicer
 		
-		if (!walking) {
-			momentum.x -= getDecceleration() * Gdx.graphics.getDeltaTime();
-			if (momentum.x < 0)
-				momentum.x = 0;
-		}
-		walking = false;
-		
-		move(momentum.x * Gdx.graphics.getDeltaTime() * direction,
-				momentum.y * Gdx.graphics.getDeltaTime());
 	}
 	
 	@Override
@@ -64,26 +42,11 @@ public abstract class Entity implements Renderable {
 	}
 	
 	/**
-	 * Makes the entity jump with a given force.
-	 * @param force force to jump with
-	 */
-	public void jump(float force) {
-		momentum.y += force;
-	}
-	
-	public void walk(float direction) {
-		this.direction = direction;
-		walking = true;
-		momentum.x = Math.min(momentum.x + getAcceleration() *
-				Gdx.graphics.getDeltaTime(), getMaxSpeed());
-	}
-	
-	/**
 	 * Moves the entity by an amount
 	 * @param x the amount to move on the x-axis
 	 * @param y the amount to move on the y-axis
 	 */
-	private void move(float x, float y) {
+	protected void move(float x, float y) {
 		this.x += x;
 		this.y += y;
 	}
@@ -111,14 +74,17 @@ public abstract class Entity implements Renderable {
 	}
 	
 	/**
+	 * Removes this entity from the list of entities in the world class
+	 */
+	public void destroy() {
+		world.removeEntity(this);
+	}
+	
+	/**
 	 * Returns the offset of the point where it has to check for floor
 	 * collision.
 	 * @return
 	 */
 	protected abstract Rectangle getBounds();
-	
-	protected abstract float getAcceleration();
-	protected abstract float getDecceleration();
-	protected abstract float getMaxSpeed();
 	
 }
